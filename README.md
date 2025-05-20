@@ -1,6 +1,6 @@
 # Expresiones Regulares
 
-## Nom i cognoms
+## Nom i cognoms: Guillem Pérez Sánchez
 
 ## Tratamiento de ficheros de notas
 
