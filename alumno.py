@@ -1,3 +1,11 @@
+"""
+alumno.py
+
+Guillem Perez Sanchez QP 2025
+Clase Alumno y la función leeAlumnos de tarea
+"""
+import re
+
 class Alumno:
     """
     Clase usada para el tratamiento de las notas de los alumnos. Cada uno
@@ -42,3 +50,41 @@ class Alumno:
         completo y la nota media del alumno con un decimal.
         """
         return f'{self.numIden}\t{self.nombre}\t{self.media():.1f}'
+
+def leeAlumnos(ficAlum):
+    """
+    Lee un fichero de texto con los datos de todos los alumnos 
+    y devuelva un diccionario en el que la clave sea el nombre de 
+    cada alumno y su contenido el objeto Alumno correspondiente.
+
+    La función deberá cumplir los requisitos siguientes:
+        - Sólo debe realizar lo que se indica; es decir, debe leer 
+          el fichero de texto que se le pasa como único argumento y 
+          devolver un diccionario con los datos de los alumnos.
+        - El análisis de cada línea de texto se realizará usando 
+          expresiones regulares.
+        - La función leeAlumnos() debe incluir, en su cadena de documentación, 
+          la prueba unitaria siguiente según el formato de la biblioteca doctest.
+    """
+    
+    alumnos = {}
+
+    patron = re.compile(r"^(\d+)\s+(.*?)(?=\s+\d)\s+(.+)$")
+
+    with open(ficAlum, "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            linea = linea.strip()
+            if not linea:
+                continue  # ignorar líneas vacías
+
+            m = patron.match(linea)
+            if not m:
+                raise ValueError(f"Línea mal formada: {linea}")
+
+            numIden = int(m.group(1))
+            nombre = m.group(2).strip()
+            notas = [float(x) for x in m.group(3).split()]
+
+            alumnos[nombre] = Alumno(nombre, numIden, notas)
+
+    return alumnos
